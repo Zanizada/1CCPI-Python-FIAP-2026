@@ -46,4 +46,17 @@ def conversor_dec(numero, base_convertida):
 
 # Função de conversão de número binário para decimal.
 def conversor_bin(binario):
+    binario = str(binario)
+    numeros = []
+    index = 0
+
+    if len(binario) % 4 != 0:
+        while len(binario) % 4 != 0:
+            binario = "0" + binario
+
+    for numero in binario:
+        numeros.append(int(numero))
+
+    # for numero in numeros:
+
     return 0
