@@ -1,4 +1,5 @@
-def conversor(numero, base_convertida):
+# Função de conversão decimal para outras bases.
+def conversor_dec(numero, base_convertida):
     numeros_hex = {
         "0":  "0",
         "1":  "1",
@@ -42,3 +43,7 @@ def conversor(numero, base_convertida):
         resultado = ''.join(resto[::-1])
 
     return resultado
+
+# Função de conversão de número binário para decimal.
+def conversor_bin(binario):
+    return 0
