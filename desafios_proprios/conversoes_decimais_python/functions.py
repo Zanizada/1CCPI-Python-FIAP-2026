@@ -9,6 +9,7 @@ def conversor_dec(numero, base_convertida):
 
     if base_convertida > 10:
         i = 0
+        # Símbolos para numeros acima de 10.
         while i < len(resto):
             if resto[i] > 35:
                 resto[i] = chr((61+resto[i]))
