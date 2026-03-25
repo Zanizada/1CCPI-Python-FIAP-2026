@@ -21,3 +21,15 @@ BIN_QUATRO = {
     "2": "10",
     "3": "11",
 }
+
+bins = {
+    4:  BIN_QUATRO,
+    8:  BIN_OCT,
+    16: BIN_HEX
+    }
+
+bits = {
+    4:  2,
+    8:  3,
+    16: 4
+}

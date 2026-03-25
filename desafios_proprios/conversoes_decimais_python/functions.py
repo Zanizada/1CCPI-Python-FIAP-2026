@@ -1,11 +1,8 @@
-from tabelas import BIN_HEX, BIN_OCT, BIN_QUATRO
+from tabelas import BIN_HEX, BIN_OCT, BIN_QUATRO, bins, bits
 
 # Função para formatar string em lista.
 def string_lista(string):
-    lista = []
-    for s in string:
-        lista.append(s)
-    return lista
+    return list(string)
 
 # Função de conversão decimal para outras bases.
 def conversor_dec(numero, base_convertida):
@@ -18,13 +15,13 @@ def conversor_dec(numero, base_convertida):
 
     # Símbolos para números acima de 10.
     if base_convertida > 10:
-        i = 0
-        while i < len(resto):
-            if resto[i] > 35:
-                resto[i] = chr((61+resto[i]))
+        for i in range(len(resto)):
+            valor = int(resto[i])
+            if valor >= 10:
+                resto[i] = chr(55 + valor)
             else:
-                resto[i] = chr((55+resto[i]))
-            i += 1
+                resto[i] = str(valor)
+
         resultado = ''.join(resto[::-1])
 
     # Formatação da saída do programa para número binário/hex (4 bits)
@@ -43,11 +40,6 @@ def conversor_dec(numero, base_convertida):
 # Função de identificação de base.
 def base(numero, base_num):
     binario = []
-    bins = {
-        4:  BIN_QUATRO,
-        8:  BIN_OCT,
-        16: BIN_HEX
-    }
     dicio = bins[base_num]
 
     i = 0
@@ -57,7 +49,34 @@ def base(numero, base_num):
 
     return binario
 
+def separacao_bits(base, binario):
+    novo_bin = []
+    novo_bin_2 = []
+    bit_destino = bits[base]
+
+    binario = ''.join(binario)
+    binario = list(binario)
+    i = 0
+    bit = 1
+
+    while i < len(binario):
+
+        if bit == 3:
+            novo_bin = ''.join(novo_bin)
+            novo_bin_2.append(novo_bin)
+            novo_bin = []
+            bit = 1
+
+    novo_bin.append(binario[i])
+    i += 1
+    bit += 1
+
 # Função de conversão de número de base por bit (2, 4, 8, 16).
 def conversor_bin(numero, base_um, base_dois):
     numero = string_lista(numero)
     binario = base(numero, base_um)
+
+    if base_dois == 2:
+        resultado = ' '.join(binario)
+
+    elif base_dois == 4:
