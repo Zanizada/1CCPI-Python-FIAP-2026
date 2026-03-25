@@ -1,3 +1,12 @@
+from tabelas import BIN_HEX, BIN_OCT, BIN_QUATRO
+
+# Função para formatar string em lista.
+def string_lista(string):
+    lista = []
+    for s in string:
+        lista.append(s)
+    return lista
+
 # Função de conversão decimal para outras bases.
 def conversor_dec(numero, base_convertida):
     resto = []
@@ -31,19 +40,24 @@ def conversor_dec(numero, base_convertida):
 
     return resultado
 
-# Função de conversão de número binário para decimal.
-def conversor_bin(binario):
-    binario = str(binario)
-    numeros = []
-    index = 0
+# Função de identificação de base.
+def base(numero, base_num):
+    binario = []
+    bins = {
+        4:  BIN_QUATRO,
+        8:  BIN_OCT,
+        16: BIN_HEX
+    }
+    dicio = bins[base_num]
 
-    if len(binario) % 4 != 0:
-        while len(binario) % 4 != 0:
-            binario = "0" + binario
+    i = 0
+    while i < len(numero):
+        binario.append(dicio[numero[i]])
+        i += 1
 
-    for numero in binario:
-        numeros.append(int(numero))
+    return binario
 
-    # for numero in numeros:
-
-    return 0
+# Função de conversão de número de base por bit (2, 4, 8, 16).
+def conversor_bin(numero, base_um, base_dois):
+    numero = string_lista(numero)
+    binario = base(numero, base_um)
