@@ -1,23 +1,5 @@
 # Função de conversão decimal para outras bases.
 def conversor_dec(numero, base_convertida):
-    numeros_hex = {
-        "0":  "0",
-        "1":  "1",
-	    "2":  "2",
-	    "3":  "3",
-        "4":  "4",
-        "5":  "5",
-        "6":  "6",
-        "7":  "7",
-        "8":  "8",
-        "9":  "9",
-        "10": "A",
-        "11": "B",
-        "12": "C",
-        "13": "D",
-        "14": "E",
-        "15": "F"
-        }
     resto = []
 
     while numero >= base_convertida:
@@ -25,10 +7,13 @@ def conversor_dec(numero, base_convertida):
         numero //= base_convertida
     resto.append(str(numero))
 
-    if base_convertida == 16:
+    if base_convertida > 10:
         i = 0
         while i < len(resto):
-            resto[i] = numeros_hex[resto[i]]
+            if resto[i] > 35:
+                resto[i] = chr((61+resto[i]))
+            else:
+                resto[i] = chr((55+resto[i]))
             i += 1
         resultado = ''.join(resto[::-1])
 
