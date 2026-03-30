@@ -7,5 +7,5 @@ match escolha_usuario:
         print("Sair do programa")
     case 1:
         print("Entrar no programa")
-    case _:
+    case _: # Qualquer caractere que não seja 0 ou 1.
         print("Erro!")
