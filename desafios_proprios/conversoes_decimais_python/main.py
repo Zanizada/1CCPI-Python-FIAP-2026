@@ -1,10 +1,11 @@
-from functions import conversor_dec
+import functions
 
-opcao = int(input("Quer converter decimal para outra base, ou de uma base especifica para decimal? (1/2)"))
+escolha = int(input("O que deseja fazer?\n1 - Converter decimal para outra base;\n2 - Converter uma base para decimal;\n3 - Converter uma base para outra base.\nEscolha(1/2/3): "))
+print()
 
-if opcao == 1:
-    numero = int(input("Digite o numero que vai ser convertido: "))
-    base_destino = int(input("Digite a base do resultado final: "))
+match escolha:
+    case 1:
+        numero = int(input("Digite um número: "))
+        base = int(input("Digite a base: "))
 
-    resultado = conversor_dec(numero, base_destino)
-    print(f"O numero {numero} na base {base_destino} eh: {resultado}")
+        print(f"O número {numero} na base {base} é: {functions.decforbase(numero, base)}")

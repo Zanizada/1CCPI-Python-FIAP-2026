@@ -1,82 +1,88 @@
-from tabelas import BIN_HEX, BIN_OCT, BIN_QUATRO, bins, bits
+import tabelas
 
-# Função para formatar string em lista.
-def string_lista(string):
-    return list(string)
+# FUNÇÕES SECUNDÁRIAS
 
-# Função de conversão decimal para outras bases.
-def conversor_dec(numero, base_convertida):
-    resto = []
-
-    while numero >= base_convertida:
-        resto.append(str(numero % base_convertida))
-        numero //= base_convertida
-    resto.append(str(numero))
-
-    # Símbolos para números acima de 10.
-    if base_convertida > 10:
-        for i in range(len(resto)):
-            valor = int(resto[i])
-            if valor >= 10:
-                resto[i] = chr(55 + valor)
-            else:
-                resto[i] = str(valor)
-
-        resultado = ''.join(resto[::-1])
-
-    # Formatação da saída do programa para número binário/hex (4 bits)
-    elif base_convertida == 2:
-        while len(resto) % 4 != 0:
-            resto.append("0")
-        resultado = ''.join(resto[::-1])
-        resultado = [resultado[i:i + 4] for i in range(0, len(resultado), 4)]
-        resultado = ' '.join(resultado)
-
+def strformat(numero):
+    if numero >= 10:
+        return chr(55+numero)
     else:
-        resultado = ''.join(resto[::-1])
+        return str(numero)
 
-    return resultado
+def numformat(string):
+    numeros = []
+    for num in string:
+        if ord(num) >= 65:
+            numeros.append(ord(num) - 55)
+        else:
+            numeros.append(int(num))
+    return numeros[::-1]
 
-# Função de identificação de base.
-def base(numero, base_num):
-    binario = []
-    dicio = bins[base_num]
+def resultformat(lista):
+    lista = lista[::-1]
+    return "".join(lista)
 
-    i = 0
-    while i < len(numero):
-        binario.append(dicio[numero[i]])
-        i += 1
+def bitsbase(base):
+    match base:
+        case 16:
+            return 4
+        case 8:
+            return 3
+        case 4:
+            return 2
+    return None
 
-    return binario
+# FUNÇÕES PRINCIPAIS
 
-def separacao_bits(base, binario):
-    novo_bin = []
-    novo_bin_2 = []
-    bit_destino = bits[base]
+def decforbase(numero, base):
+    numeros = []
 
-    binario = ''.join(binario)
-    binario = list(binario)
-    i = 0
-    bit = 1
+    while numero > 1:
+        numeros.append(numero % base)
+        numero //= base
+    if numero == 1:
+        numeros.append(1)
 
-    while i < len(binario):
+    resultado = []
 
-        if bit == 3:
-            novo_bin = ''.join(novo_bin)
-            novo_bin_2.append(novo_bin)
-            novo_bin = []
-            bit = 1
+    for num in numeros:
+        resultado.append(strformat(num))
 
-    novo_bin.append(binario[i])
-    i += 1
-    bit += 1
+    return resultformat(resultado)
 
-# Função de conversão de número de base por bit (2, 4, 8, 16).
-def conversor_bin(numero, base_um, base_dois):
-    numero = string_lista(numero)
-    binario = base(numero, base_um)
+def basefordec(numero, base):
+    numero = numformat(numero)
+    numeros = []
 
-    if base_dois == 2:
-        resultado = ' '.join(binario)
+    for i in range(0, len(numero)):
+        operacao = numero[i] * (base**i)
+        if operacao != 0:
+            numeros.append(operacao)
 
-    elif base_dois == 4:
+    return sum(numeros)
+
+def baseforbase(numero, base_inicio, base_fim): # "4AF", 16, 8
+    dic_base_inicio = tabelas.BITS[bitsbase(base_inicio)] # dbi = BIN_HEX
+    dic_base_fim = tabelas.BITS[bitsbase(base_fim)] # dbf = BIN_OCT
+    bits = bitsbase(base_fim) # bits = 3
+
+    numeros = []
+    for num in numero: # 4AF
+      numeros.append(dic_base_inicio[num]) # "4" --> "0100", "A" --> "1010", "F" --> "1111"
+    # numeros = ["0100", "1010", "1111")
+    numeros = "".join(numeros) # 010010101111
+
+    resto = len(numeros) % bits # 3 % 3 = 0
+    if resto != 0:
+        numeros = "0" * (bits - resto) + numeros # "0" à esquerda da string
+
+    partes = []
+    for i in range(0, len(numeros), bits):
+        pedaco = numeros[i:i+bits]
+        partes.append(pedaco)
+    # partes = ["010", "010", "101", "111"]
+    numeros = []
+    for num in partes:
+        numeros.append(dic_base_fim[num]) # "010" = "2", "010" = "2", "101" = 5, "111" = 7
+    # numeros = ["2", "2", "5", "7"]
+
+    return "".join(numeros)
