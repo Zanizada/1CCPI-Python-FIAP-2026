@@ -9,3 +9,14 @@ match escolha:
         base = int(input("Digite a base: "))
 
         print(f"O número {numero} na base {base} é: {functions.decforbase(numero, base)}")
+    case 2:
+        numero = input("Digite um número: ")
+        base = int(input("Digite a base: "))
+
+        print(f"O número {numero} na base {base} é: {functions.basefordec(numero, base)}")
+    case 3:
+        numero = input("Digite um número: ")
+        base = int(input("Digite a base: "))
+        base_destino = int(input("Digite a base destinada: "))
+
+        print(f"O número {numero} na base {base} é: {functions.baseforbase(numero, base, base_destino)}")

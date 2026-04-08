@@ -36,6 +36,9 @@ def bitsbase(base):
 def decforbase(numero, base):
     numeros = []
 
+    if numero == 0:
+        return "0"
+
     while numero > 1:
         numeros.append(numero % base)
         numero //= base
