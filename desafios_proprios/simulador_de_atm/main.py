@@ -1,18 +1,18 @@
 import functions, time
 
-print("Bem-vindo ao seu caixa eletrônico.\n")
+""" print("Bem-vindo ao seu caixa eletrônico.\n")
 
-attempts = 1
+attempts = 0
 
 while True:
-    login = input(f"Insira a sua senha ({4-attempts} tentativas restantes): ")
-    if attempts >= 3:
+    login = functions.input_senha(f"Insira a sua senha ({4-attempts} tentativas restantes): ")
+    if attempts > 2:
 
         for i in range(300, 0, -1):
             minutos = i // 60
             segundos = i - (minutos * 60)
             print(f"\rConta bloqueada, tente novamente em {minutos} minutos e {segundos} segundos", end="")
-            time.sleep(0.01)
+            time.sleep(1)
 
         print("\nConta liberada.\n")
         attempts = 1
@@ -22,36 +22,47 @@ while True:
         print("Login bem-sucedido!\n")
         break
     else:
-        attempts += 1
+        attempts += 1 """
 
 saldo = 1000.00
-depositos = []
-saques = []
+saques = 0
+historico = []
+tempo = 24
 
 while True:
-    escolha = int(input("1 - Ver saldo\n2 - Depositar\n3 - Sacar\n4 - Histórico\n5 - Sair\nEscolha: "))
+    escolha = int(input("\n1 - Ver saldo\n2 - Depositar\n3 - Sacar\n4 - Histórico\n5 - Sair\nEscolha: "))
 
     match escolha:
         case 1: # Saldo
-            print(f"\nSaldo: {functions.moneyformat(saldo)}\n")
-            continue
+            print(f"\nSaldo: {functions.moneyformat(saldo)}")
+
         case 2: # Depositar
-            deposito = float(input("Insira o valor do depósito: "))
+            deposito = float(input("\nInsira o valor do depósito: "))
             saldo += deposito
-            depositos.append(f"Depósito: {functions.moneyformat(deposito)}")
-            print(f"\nDepósito de {functions.moneyformat(deposito)} concluído.\nSaldo: {functions.moneyformat(saldo)}")
-            continue
+            historico.append(f"Depósito: {functions.moneyformat(deposito)}")
+            print(f"\nDepósito de {functions.moneyformat(deposito)} realizado.")
+
         case 3: # Sacar
-            saque = int(input("Insira o valor do saque desejado: "))
-
-            if saque % 5 != 0:
-                print("Sáque inválido, tente novamente.")
+            if saques > 2:
+                print(f"Limite de saques diários atingidos.\n")
+            else:
+                print(f"\nMáximo de 3 saques por dia.")
+                print(f"Saques realizados hoje: {saques}")
                 saque = int(input("Insira o valor do saque desejado: "))
+                if saque % 5 != 0:
+                    print("\nSáque inválido, tente novamente.")
+                    saque = int(input("Insira o valor do saque desejado: "))
+                saldo -= saque
+                saques += 1
+                historico.append(f"Saque: {functions.moneyformat(saque)}")
+                notas = functions.notasformat(saque)
+                notas = "\n".join(notas)
+                print(f"\nSaque de R$ {(saque)} realizado.")
+                print(notas)
 
-            notas = functions.notasformat(saque)
-            notas = "\n".join(notas)
-        # case 4: # Histórico
+        case 4: # Histórico
+            print(f"\n{"\n".join(historico)}")
 
         case 5: # Sair
             print("\nFim.\n")
-            break
+            exit()
